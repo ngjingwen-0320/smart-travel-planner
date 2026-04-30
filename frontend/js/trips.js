@@ -38,11 +38,23 @@ async function fetchUserTrips() {
             const daysLeft = Math.ceil((new Date(trip.startDate) - new Date()) / (1000 * 60 * 60 * 24));
             const countdownText = daysLeft > 0 ? `${daysLeft} Days Left` : (daysLeft === 0 ? "Today!" : "Past Trip");
 
+            // const formatUTC = (dateStr) => {
+            //     const d = new Date(dateStr);
+            //     // Use getUTC methods to ensure 23:59:59 on the 10th stays on the 10th
+            //     return `${d.getUTCDate()}/${d.getUTCMonth() + 1}/${d.getUTCFullYear()}`;
+            // };
             const formatUTC = (dateStr) => {
+                if (!dateStr) return '';
                 const d = new Date(dateStr);
-                // Use getUTC methods to ensure 23:59:59 on the 10th stays on the 10th
-                return `${d.getUTCDate()}/${d.getUTCMonth() + 1}/${d.getUTCFullYear()}`;
+                
+                // Convert to string and pad with a leading '0' if the length is less than 2
+                const day = String(d.getUTCDate()).padStart(2, '0');
+                const month = String(d.getUTCMonth() + 1).padStart(2, '0');
+                const year = d.getUTCFullYear();
+
+                return `${day}/${month}/${year}`;
             };
+            
             const endDateDisplay = formatUTC(trip.endDate);
 
             return `
