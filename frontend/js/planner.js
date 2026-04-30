@@ -7,6 +7,18 @@ async function loadSmartPlan() {
     const urlParams = new URLSearchParams(window.location.search);
     const tripId = urlParams.get('id');
 
+    const formatUTC = (dateStr) => {
+        if (!dateStr) return '';
+        const d = new Date(dateStr);
+        
+        // Use UTC methods to extract the exact digits stored in the DB
+        const day = String(d.getUTCDate()).padStart(2, '0');
+        const month = String(d.getUTCMonth() + 1).padStart(2, '0');
+        const year = d.getUTCFullYear();
+
+        return `${day}/${month}/${year}`;
+    };
+
     if (!tripId) {
         console.error("No Trip ID found in URL");
         window.location.href = 'dashboard.html';
@@ -33,13 +45,16 @@ async function loadSmartPlan() {
         // --- 1. FILL TRIP BASICS ---
         document.getElementById('tripTitle').innerText = data.title || "Adventure Plan";
         document.getElementById('cityName').innerText = data.destination || data.city;
+
+        // const start = data.startDate ? new Date(data.startDate).toLocaleDateString() : 'TBD';
+        // const end = data.endDate ? new Date(data.endDate).toLocaleDateString() : 'TBD';
         
-        const start = data.startDate ? new Date(data.startDate).toLocaleDateString() : 'TBD';
-        const end = data.endDate ? new Date(data.endDate).toLocaleDateString() : 'TBD';
+        const start = data.startDate ? formatUTC(data.startDate) : 'TBD';
+        const end = data.endDate ? formatUTC(data.endDate) : 'TBD';
         document.getElementById('dateRange').innerText = `${start} - ${end}`;
         
         document.getElementById('budgetDisplay').innerText = `RM ${data.budget || data.budgetPerPax || '0'}`;
-        document.getElementById('tripNotes').innerText = data.notes || "No extra notes added for this journey.";
+        document.getElementById('tripPreferences').innerText = data.preferences || "No extra preferences added for this journey.";
 
         // --- 2. FILL WEATHER ---
         const w = response.weather || { temperature: '--', condition: 'Unavailable', humidity: '--' };
