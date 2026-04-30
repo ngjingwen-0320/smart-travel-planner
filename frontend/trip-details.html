@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Trip Details - SmartTravel</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0058bc",
+                        "secondary-container": "#fe9400",
+                        "background": "#faf9fe",
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #faf9fe; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .adventure-shadow { box-shadow: 0 10px 25px -5px rgba(0, 88, 188, 0.1); }
+    </style>
+</head>
+
+<body class="bg-background text-slate-900 min-h-screen flex">
+    <aside class="fixed left-0 top-0 h-screen w-64 border-r bg-white border-slate-200 shadow-xl shadow-blue-500/5 flex flex-col p-4 gap-2 z-50">
+        <div class="mb-8 px-4 py-6">
+            <h1 class="text-2xl font-black text-blue-600">SmartTravel</h1>
+            <p class="text-sm text-slate-400">Smart Planner</p>
+        </div>
+        <nav class="flex flex-col gap-1 grow">
+            <a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-500 hover:bg-slate-50 rounded-lg transition-all" href="dashboard.html">
+                <span class="material-symbols-outlined">home</span>
+                <span>My Trips</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-500 hover:bg-slate-50 rounded-lg transition-all" href="create-trip.html">
+                <span class="material-symbols-outlined">add_circle</span>
+                <span>Plan New Trip</span>
+            </a>
+        </nav>
+        <button onclick="logout()" class="flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 rounded-lg transition-all mt-4">
+                <span class="material-symbols-outlined">logout</span>
+                <span>Logout</span>
+        </button>
+    </aside>
+
+    <main class="flex-1 ml-64 min-h-screen pb-20">
+        <div id="loader" class="flex flex-col items-center justify-center h-screen space-y-4">
+            <div class="animate-spin text-blue-600 text-4xl">⌛</div>
+            <p class="text-slate-500 font-medium tracking-wide">Analyzing weather & local hotspots...</p>
+        </div>
+
+        <div id="detailsContent" class="hidden">
+            <header class="relative h-80 w-full overflow-hidden">
+                <img id="tripHeroImage" src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80&w=1600" class="w-full h-full object-cover" alt="Hero">
+                <div class="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-12">
+                    <h1 id="tripTitle" class="text-5xl font-black text-slate-900 tracking-tight">Your Trip</h1>
+                    <div id="destinationTag" class="mt-4 inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
+                        <span class="material-symbols-outlined text-sm">location_on</span>
+                        <span id="cityName">Paris, France</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="px-12 -mt-8 relative z-10 grid grid-cols-12 gap-8">
+                <div class="col-span-12 lg:col-span-4 space-y-8">
+                    <div class="bg-white p-8 rounded-[2rem] adventure-shadow border border-slate-100">
+                        <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6">Trip Overview</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+                                    <span class="material-symbols-outlined">calendar_month</span>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-400 font-bold uppercase">Dates</p>
+                                    <p id="dateRange" class="font-bold text-slate-700">Loading...</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-600">
+                                    <span class="material-symbols-outlined">payments</span>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-400 font-bold uppercase">Budget</p>
+                                    <p id="budgetDisplay" class="font-bold text-slate-700">RM 0.00</p>
+                                </div>
+                            </div>
+                            <div class="pt-4 border-t border-slate-100">
+                                <p class="text-xs text-slate-400 font-bold uppercase mb-2">Notes</p>
+                                <p id="tripNotes" class="text-slate-600 italic leading-relaxed">No specific notes added.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="weatherCard" class="bg-gradient-to-br from-blue-500 to-blue-700 p-8 rounded-[2rem] text-white shadow-xl shadow-blue-500/20">
+                        <div class="flex justify-between items-start mb-8">
+                            <h3 class="font-bold text-lg">Current Weather</h3>
+                            <span class="material-symbols-outlined text-4xl" id="weatherIcon">cloud</span>
+                        </div>
+                        <div class="space-y-2">
+                            <h2 class="text-6xl font-black" id="tempText">--°C</h2>
+                            <p class="text-xl font-medium opacity-90" id="conditionText">Loading weather...</p>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-white/20 flex justify-between text-center">
+                            <div>
+                                <p class="text-[10px] uppercase font-bold opacity-70">Humidity</p>
+                                <p class="font-bold" id="humidityText">--%</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] uppercase font-bold opacity-70">Status</p>
+                                <p class="font-bold text-xs uppercase">Updated</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-span-12 lg:col-span-8 space-y-8">
+                    <div class="bg-[#fe9400] p-1 text-white rounded-[2rem] shadow-lg">
+                        <div class="bg-[#2d1600] rounded-[1.8rem] p-8 flex items-center gap-6">
+                            <div class="w-16 h-16 rounded-2xl bg-[#fe9400] flex items-center justify-center text-[#2d1600] shrink-0">
+                                <span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold uppercase tracking-widest text-[#fe9400] mb-1">Smart Recommendation</h4>
+                                <p id="smartAdvice" class="text-lg font-medium leading-snug italic">Thinking of the best advice for you...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-6 px-4">
+                            <h3 class="text-2xl font-black text-slate-800">Nearby Attractions</h3>
+                            <span class="text-blue-600 font-bold text-sm">Created for you</span>
+                        </div>
+                        <div id="placesList" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/planner.js"></script>
+ </body>
+</html>
