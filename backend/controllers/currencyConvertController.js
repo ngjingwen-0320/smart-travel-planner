@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-exports.getCurrency = async (req, res) => {
+exports.getCurrencyRate = async (req, res) => {
 
     try {
 
