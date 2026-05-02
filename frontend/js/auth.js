@@ -13,7 +13,18 @@ if (registerForm) {
         const password = document.getElementById('password').value;
         const passwordConfirm = document.getElementById('passwordConfirm').value;
 
-        // 2. THE LOGIC CHECK (Frontend Only)
+        // 2. VALIDATE PASSWORD
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+        const errorBox = document.getElementById("errorBox");
+        const errorMessage = document.getElementById("errorMessage");
+
+        if (!passwordPattern.test(password)) {
+            errorMessage.innerText = "⚠️ Password must include uppercase, lowercase, number, symbol and be at least 8 characters.";
+            errorBox.classList.remove("hidden");
+            return;
+        }
+
+        // 3. THE LOGIC CHECK (Frontend Only)
         // We do this BEFORE calling the API or changing button state
         if (password !== passwordConfirm) {
             alert("❌ Passwords do not match! Please check again.");
@@ -21,7 +32,7 @@ if (registerForm) {
             return; // STOP everything here
         }
 
-        // 3. API Call Setup
+        // 4. API Call Setup
         try {
             submitBtn.innerText = "Creating Account...";
             submitBtn.disabled = true;
