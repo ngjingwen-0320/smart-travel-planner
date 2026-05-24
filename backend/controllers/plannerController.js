@@ -6,7 +6,7 @@ exports.getCombinedPlanner = async (req, res) => {
         const { tripId } = req.params;
 
         // 1. Get Trip details from MongoDB
-        const trip = await Trip.findById(tripId);
+        const trip = await Trip.findOne({ _id: tripId, user: req.user.id });
         if (!trip) {
             return res.status(404).json({ success: false, message: "Trip not found" });
         }

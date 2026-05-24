@@ -73,7 +73,7 @@ async function loadSmartPlan() {
         // --- 3. FILL AI RECOMMENDATION ---
         const adviceBox = document.getElementById('smartAdvice');
         if (adviceBox) {
-            adviceBox.innerText = response.recommendation || `Enjoy your trip to ${trip.destination || trip.city}!`;
+            adviceBox.innerText = response.recommendation || `Enjoy your trip to ${data.destination || data.city}!`;
         }
 
         // --- 4. FILL ATTRACTIONS ---
