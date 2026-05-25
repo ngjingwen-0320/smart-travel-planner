@@ -56,3 +56,123 @@ exports.login = async (req, res) => {
     user: { id: user._id, name: user.name, email: user.email }
   });
 };
+
+exports.getProfile = async (req, res) => {
+  res.status(200).json({
+    success: true,
+    user: {
+      id: req.user._id,
+      name: req.user.name,
+      email: req.user.email,
+      role: req.user.role
+    }
+  });
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const { name, email } = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { name, email },
+      {
+        new: true,
+        runValidators: true
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
+    });
+  } catch (err) {
+    if (err.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: 'This email is already used by another account'
+      });
+    }
+
+    res.status(400).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
+
+exports.verifyPassword = async (req, res) => {
+  try {
+    const { oldPassword } = req.body;
+
+    if (!oldPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please enter your old password'
+      });
+    }
+
+    const user = await User.findById(req.user.id).select('+password');
+
+    const isCorrect = await user.correctPassword(oldPassword, user.password);
+
+    if (!isCorrect) {
+      return res.status(401).json({
+        success: false,
+        message: 'Old password is incorrect'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Password verified'
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: err.message
+    });
+  }
+};
+
+exports.updatePassword = async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'Old password and new password are required'
+      });
+    }
+
+    const user = await User.findById(req.user.id).select('+password');
+
+    const isCorrect = await user.correctPassword(oldPassword, user.password);
+
+    if (!isCorrect) {
+      return res.status(401).json({
+        success: false,
+        message: 'Old password is incorrect'
+      });
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Password updated successfully'
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: err.message
+    });
+  }
+};

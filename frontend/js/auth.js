@@ -133,3 +133,168 @@ function checkAuth() {
         window.location.href = 'login.html';
     }
 }
+
+// LOAD PROFILE DETAILS
+async function loadProfile() {
+    const profileName = document.getElementById('profileName');
+    const profileEmail = document.getElementById('profileEmail');
+    const profileSummaryName = document.getElementById('profileSummaryName');
+    const profileSummaryIcon = document.getElementById('profileSummaryIcon');
+
+    if (!profileName || !profileEmail) return;
+
+    checkAuth();
+
+    try {
+        const response = await apiRequest('/auth/profile');
+        const user = response.user;
+
+        profileName.value = user.name || '';
+        profileEmail.value = user.email || '';
+
+        if (profileSummaryName) {
+            profileSummaryName.innerText = user.name || 'User';
+        }
+
+        if (profileSummaryIcon) {
+            profileSummaryIcon.innerText = user.name ? user.name.charAt(0) : 'U';
+        }
+
+        localStorage.setItem('user', JSON.stringify(user));
+    } catch (err) {
+        alert('Failed to load profile: ' + err.message);
+    }
+}
+
+// UPDATE NAME AND EMAIL
+const editProfileForm = document.getElementById('editProfileForm');
+
+if (editProfileForm) {
+    editProfileForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('profileName').value;
+        const email = document.getElementById('profileEmail').value;
+
+        try {
+            const response = await apiRequest('/auth/profile', 'PUT', {
+                name,
+                email
+            });
+
+            localStorage.setItem('user', JSON.stringify(response.user));
+
+            document.getElementById('profileErrorBox').classList.add('hidden');
+
+            alert('Profile updated successfully');
+            loadProfile();
+        } catch (err) {
+            
+            const profileErrorBox = document.getElementById('profileErrorBox');
+            const profileErrorMessage = document.getElementById('profileErrorMessage');
+
+            profileErrorMessage.innerText = err.message;
+            profileErrorBox.classList.remove('hidden');
+            
+        }
+    })
+}
+
+// VERIFY OLD PASSWORD BEFORE ALLOWING PASSWORD CHANGE
+const verifyPasswordBtn = document.getElementById('verifyPasswordBtn');
+
+if (verifyPasswordBtn) {
+    verifyPasswordBtn.addEventListener('click', async () => {
+        const oldPassword = document.getElementById('oldPassword').value;
+
+        if (!oldPassword) {
+            alert('Please enter your old password');
+            return;
+        }
+
+        try {
+            await apiRequest('/auth/verify-password', 'POST', {
+                oldPassword
+            });
+
+            alert('Password verified');
+
+            document.getElementById('newPasswordSection').classList.remove('hidden');
+            document.getElementById('verifyPasswordBtn').classList.add('hidden');
+            document.getElementById('oldPassword').readOnly = true;
+        } catch (err) {
+            alert('Verification failed: ' + err.message);
+        }
+    });
+}
+
+// UPDATE PASSWORD
+const changePasswordForm = document.getElementById('changePasswordForm');
+
+if (changePasswordForm) {
+    changePasswordForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const oldPassword = document.getElementById('oldPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        const passwordFormat = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+        const changePasswordErrorBox = document.getElementById("changePasswordErrorBox");
+        const errorMessage = document.getElementById("errorMessage");
+
+        if (!passwordFormat.test(newPassword)) {
+            errorMessage.innerText = "⚠️ Password must include uppercase, lowercase, number, symbol and be at least 8 characters.";
+            changePasswordErrorBox.classList.remove("hidden");
+            return;
+        }
+
+        if (!newPassword || !confirmPassword) {
+            alert('Please enter and confirm your new password');
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            alert('New passwords do not match');
+            return;
+        }
+
+        try {
+            await apiRequest('/auth/password', 'PUT', {
+                oldPassword,
+                newPassword
+            });
+
+            alert('Password updated successfully');
+
+            document.getElementById('oldPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+
+            document.getElementById('oldPassword').readOnly = false;
+            document.getElementById('newPasswordSection').classList.add('hidden');
+            document.getElementById('verifyPasswordBtn').classList.remove('hidden');
+        } catch (err) {
+            alert('Password update failed: ' + err.message);
+        }
+    });
+}
+
+// RESET PASSWORD FORM WHEN CANCEL IS CLICKED
+const cancelPasswordBtn = document.getElementById('cancelPasswordBtn');
+
+if (cancelPasswordBtn) {
+    cancelPasswordBtn.addEventListener('click', () => {
+        document.getElementById('oldPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+
+        document.getElementById('oldPassword').readOnly = false;
+        document.getElementById('newPasswordSection').classList.add('hidden');
+        document.getElementById('verifyPasswordBtn').classList.remove('hidden');
+    });
+}
+
+if (document.getElementById('editProfileForm')) {
+    loadProfile();
+}

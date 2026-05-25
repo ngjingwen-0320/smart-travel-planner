@@ -7,12 +7,12 @@ const router = express.Router();
 router.post('/register', authController.register);
 router.post('/login', authController.login);
 
-// The 'protect' middleware runs BEFORE the response
-router.get('/profile', protect, (req, res) => {
-  res.status(200).json({
-    success: true,
-    user: req.user
-  });
-});
+// Profile routes
+router.get('/profile', protect, authController.getProfile);
+router.put('/profile', protect, authController.updateProfile);
+
+// Password routes
+router.post('/verify-password', protect, authController.verifyPassword);
+router.put('/password', protect, authController.updatePassword);
 
 module.exports = router;
