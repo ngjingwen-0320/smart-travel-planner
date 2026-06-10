@@ -16,15 +16,15 @@ document.getElementById('forgotForm').addEventListener('submit', async (e) => {
     const data = await res.json();
 
     if (data.success) {
-      messageEl.style.color = 'green';
-      messageEl.textContent = 'Reset link sent to your email.';
+      messageElement.style.color = 'green';
+      messageElement.textContent = 'Reset link sent to your email. Please check your inbox.';
     } else {
-      messageEl.style.color = 'red';
-      messageEl.textContent = data.message;
+      messageElement.style.color = 'red';
+      messageElement.textContent = data.message;
     }
 
   } catch (err) {
-    messageEl.style.color = 'red';
-    messageEl.textContent = 'Server error. Please try again.';
+    messageElement.style.color = 'red';
+    messageElement.textContent = 'Server error. Please try again.';
   }
 });
