@@ -5,7 +5,7 @@ document.getElementById('forgotForm').addEventListener('submit', async (e) => {
   const messageEl = document.getElementById('message');
 
   try {
-    const res = await fetch('http://localhost:5001/api/v1/auth/reset-password/${resetToken}', {
+    const res = await fetch('http://localhost:5001/api/v1/auth/reset-password/${token}', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -17,7 +17,7 @@ document.getElementById('forgotForm').addEventListener('submit', async (e) => {
 
     if (data.success) {
       messageElement.style.color = 'green';
-      messageElement.textContent = 'Reset link sent to your email. Please check your inbox.';
+      messageElement.textContent = 'Reset link sent to your email.';
     } else {
       messageElement.style.color = 'red';
       messageElement.textContent = data.message;

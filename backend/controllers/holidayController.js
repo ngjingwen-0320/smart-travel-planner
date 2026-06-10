@@ -1,23 +1,29 @@
-const axios = require('axios');
+const axios = require("axios");
 
 exports.getHolidays = async (req, res) => {
   try {
     const { year, country } = req.params;
 
     const response = await axios.get(
-      `https://date.nager.at/api/v3/PublicHolidays/${year}/${country}`
+      `https://calendarific.com/api/v2/holidays`,
+      {
+        params: {
+          api_key: process.env.CALENDARIFIC_API_KEY,
+          country,
+          year
+        }
+      }
     );
 
-    res.status(200).json({
+    res.json({
       success: true,
-      holidays: response.data
+      holidays: response.data.response.holidays
     });
 
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: "Failed to fetch holidays",
-      error: err.message
+      message: err.message
     });
   }
 };
