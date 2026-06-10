@@ -6,6 +6,7 @@ const weatherRouter = require('./routes/weatherRoutes');
 const placesRouter = require('./routes/placesRoutes');
 const plannerRoutes = require('./routes/plannerRoutes');
 const currencyRouter = require('./routes/currencyConvertRoutes');
+const holidayRouter = require('./routes/holidayRoutes');
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use('/api/v1/weather', weatherRouter);
 app.use('/api/v1/places', placesRouter);
 app.use('/api/v1/planner', plannerRoutes);
 app.use('/api/v1/currency', currencyRouter);
+app.use('/api/v1/holidays', holidayRouter);
 
 // Basic health check
 app.get('/', (req, res) => {
