@@ -140,6 +140,14 @@
                             </div>
                         </div>
 
+                        <div id="holidayWarning" class="hidden mt-4 p-4 bg-red-50 border border-red-200 rounded-xl">
+                            <p class="text-red-600 font-semibold text-sm">Holiday Alert</p>
+                            <ul id="holidayList" class="text-sm text-red-500 mt-2 space-y-1"></ul>
+                        </div>
+
+                        <div class="mt-auto p-4 bg-blue-50 rounded-xl border border-blue-100">
+                            <p class="text-xs text-blue-700 leading-relaxed font-medium">
+
                         <div class="mt-auto p-4 bg-blue-50 rounded-xl border border-blue-100">
                             <p class="text-xs text-blue-700 leading-relaxed font-medium">
                                 <span class="material-symbols-outlined text-sm inline-block align-middle">info</span>
@@ -183,6 +191,8 @@
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/trips.js"></script>
+    <script src="js/holiday-check.js"></script>
+
     <script>
         checkAuth();
         
