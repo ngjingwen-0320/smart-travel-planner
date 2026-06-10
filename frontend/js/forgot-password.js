@@ -5,7 +5,7 @@ document.getElementById('forgotForm').addEventListener('submit', async (e) => {
   const messageEl = document.getElementById('message');
 
   try {
-    const res = await fetch('http://localhost:5001/api/v1/auth/forgot-password', {
+    const res = await fetch('http://localhost:5001/api/v1/auth/reset-password/${resetToken}', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
