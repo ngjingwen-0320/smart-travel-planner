@@ -91,7 +91,7 @@
                             <button type="submit" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition-all">
                                 Save Profile
                             </button>
-                            <button type="button" onclick="history.back()" class="px-8 py-4 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition-all">
+                            <button type="button" id="cancelProfileBtn" class="px-8 py-4 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 transition-all">
                                 Cancel
                             </button>
                         </div>
@@ -111,7 +111,7 @@
                         <div class="relative">
                             <input type="password" id="oldPassword" class="w-full rounded-xl border-slate-200" placeholder="Enter old password">
                             <button type="button" onclick="togglePassword('oldPassword','oldPasswordEyeIcon')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-blue-600">
-                                <i id="eyeIcon" class="fa-regular fa-eye"></i>
+                                <i id="oldPasswordEyeIcon" class="fa-regular fa-eye"></i>
                             </button>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                             <div class="relative">
                                 <input type="password" id="newPassword" class="w-full rounded-xl border-slate-200" placeholder="Enter new password">
                                 <button type="button" onclick="togglePassword('newPassword','newPasswordEyeIcon')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-blue-600">
-                                    <i id="eyeIcon" class="fa-regular fa-eye"></i>
+                                    <i id="newPasswordEyeIcon" class="fa-regular fa-eye"></i>
                                 </button>
                             </div>
                         </div>
@@ -138,7 +138,7 @@
                             <div class="relative">
                                 <input type="password" id="confirmPassword" class="w-full rounded-xl border-slate-200" placeholder="Confirm new password">
                                 <button type="button" onclick="togglePassword('confirmPassword','confirmPasswordEyeIcon')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-blue-600">
-                                    <i id="eyeIcon" class="fa-regular fa-eye"></i>
+                                    <i id="confirmPasswordEyeIcon" class="fa-regular fa-eye"></i>
                                 </button>
                             </div>
                         </div>

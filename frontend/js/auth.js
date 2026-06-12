@@ -200,6 +200,16 @@ if (editProfileForm) {
     })
 }
 
+// CANCEL PROFILE UPDATE
+const cancelProfileBtn = document.getElementById('cancelProfileBtn');
+
+if (cancelProfileBtn) {
+    cancelProfileBtn.addEventListener('click', () => {
+        document.getElementById('profileErrorBox').classList.add('hidden');
+        loadProfile();
+    });
+}
+
 // VERIFY OLD PASSWORD BEFORE ALLOWING PASSWORD CHANGE
 const verifyPasswordBtn = document.getElementById('verifyPasswordBtn');
 
@@ -218,6 +228,9 @@ if (verifyPasswordBtn) {
             });
 
             alert('Password verified');
+
+            document.getElementById('changePasswordErrorBox').classList.add('hidden');
+            document.getElementById('errorMessage').innerText = '';
 
             document.getElementById('newPasswordSection').classList.remove('hidden');
             document.getElementById('verifyPasswordBtn').classList.add('hidden');
@@ -288,6 +301,9 @@ if (cancelPasswordBtn) {
         document.getElementById('oldPassword').value = '';
         document.getElementById('newPassword').value = '';
         document.getElementById('confirmPassword').value = '';
+
+        document.getElementById('changePasswordErrorBox').classList.add('hidden');
+        document.getElementById('errorMessage').innerText = '';
 
         document.getElementById('oldPassword').readOnly = false;
         document.getElementById('newPasswordSection').classList.add('hidden');
