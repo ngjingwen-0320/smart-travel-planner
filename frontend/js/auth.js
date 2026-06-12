@@ -298,3 +298,36 @@ if (cancelPasswordBtn) {
 if (document.getElementById('editProfileForm')) {
     loadProfile();
 }
+
+const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+
+if (forgotPasswordForm) {
+    forgotPasswordForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const submitBtn = forgotPasswordForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerText;
+
+        const email = document.getElementById('email').value;
+
+        try {
+            submitBtn.innerText = "Sending...";
+            submitBtn.disabled = true;
+
+            const response = await apiRequest('/auth/forgot-password', 'POST', {
+                email
+            });
+
+            alert("📩 Reset link has been sent to your email!");
+
+            // optional UX improvement
+            forgotPasswordForm.reset();
+
+        } catch (err) {
+            alert("⚠️ " + err.message);
+        } finally {
+            submitBtn.innerText = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+}
