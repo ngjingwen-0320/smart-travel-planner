@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Login - Smart Travel Planner</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        body { background-color: #faf9fe; font-family: 'Inter', sans-serif; }
+        .adventure-shadow { box-shadow: 0 20px 25px -5px rgba(0, 88, 188, 0.1), 0 8px 10px -6px rgba(0, 88, 188, 0.05); }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <main class="flex-grow flex items-center justify-center p-6 relative overflow-hidden">
+        <div class="absolute top-[-10%] right-[-5%] w-[400px] h-[400px] rounded-full bg-blue-500/5 blur-3xl"></div>
+        <div class="absolute bottom-[-10%] left-[-5%] w-[300px] h-[300px] rounded-full bg-orange-500/5 blur-3xl"></div>
+
+        <div class="w-full max-w-md z-10">
+            <div class="flex flex-col items-center mb-12">
+                <div class="w-16 h-16 bg-[#0058bc] rounded-xl flex items-center justify-center adventure-shadow mb-4">
+                    <span class="material-symbols-outlined text-white text-4xl">travel_explore</span>
+                </div>
+                <h1 class="text-4xl font-bold text-[#1a1b1f] tracking-tight">Smart Travel</h1>
+                <p class="text-slate-500 mt-2 text-center">Plan Less, Experience More</p>
+            </div>
+
+            <div class="bg-white rounded-[1.5rem] p-10 adventure-shadow border border-slate-100">
+                <div class="mb-8">
+                    <h2 class="text-2xl font-semibold text-[#1a1b1f]">Welcome back</h2>
+                    <p class="text-sm text-slate-500 mt-1">Please enter your details to sign in</p>
+                </div>
+
+                <form id="loginForm" class="space-y-6">
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider" for="email">Email</label>
+                        <input class="w-full px-4 py-3 rounded-lg border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-[#0058bc] transition-all" 
+                               id="email" type="email" placeholder="example@email.com" required/>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider" for="password">Password</label>
+                        <div class="relative">
+                            <input class="w-full px-4 py-3 rounded-lg border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-[#0058bc] transition-all" 
+                               id="password" type="password" placeholder="••••••••" required/>
+                            <button type="button" onclick="togglePassword('password','eyeIcon')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-blue-600">
+                                <i id="eyeIcon" class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button class="w-full py-4 bg-[#0058bc] text-white rounded-xl font-semibold hover:bg-[#004493] active:scale-[0.98] transition-all adventure-shadow" 
+                                type="submit">
+                            Sign In
+                        </button>
+                    </div>
+                </form>
+
+                <p class="mt-8 text-center text-sm text-slate-500">
+                    Don't have an account? 
+                    <a class="text-[#0058bc] font-semibold hover:underline" href="register.html">Create an account</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="w-full py-8 px-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-xs text-slate-400">© 2026 Smart Travel Planner.</p>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

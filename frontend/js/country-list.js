@@ -1,0 +1,33 @@
+const countries = [
+  { code: "AU", name: "Australia", flag: "au" },
+  { code: "BD", name: "Bangladesh", flag: "bd" },
+  { code: "BR", name: "Brazil", flag: "br" },
+  { code: "CA", name: "Canada", flag: "ca" },
+  { code: "CN", name: "China", flag: "cn" },
+  { code: "DK", name: "Denmark", flag: "dk" },
+  { code: "HK", name: "Hong Kong", flag: "hk" },
+  { code: "IN", name: "India", flag: "in" },
+  { code: "ID", name: "Indonesia", flag: "id" },
+  { code: "JP", name: "Japan", flag: "jp" },
+  { code: "MY", name: "Malaysia", flag: "my" },
+  { code: "MX", name: "Mexico", flag: "mx" },
+  { code: "NZ", name: "New Zealand", flag: "nz" },
+  { code: "NO", name: "Norway", flag: "no" },
+  { code: "PK", name: "Pakistan", flag: "pk" },
+  { code: "PH", name: "Philippines", flag: "ph" },
+  { code: "RU", name: "Russia", flag: "ru" },
+  { code: "SA", name: "Saudi Arabia", flag: "sa" },
+  { code: "SG", name: "Singapore", flag: "sg" },
+  { code: "ZA", name: "South Africa", flag: "za" },
+  { code: "KR", name: "South Korea", flag: "kr" },
+  { code: "SE", name: "Sweden", flag: "se" },
+  { code: "CH", name: "Switzerland", flag: "ch" },
+  { code: "TH", name: "Thailand", flag: "th" },
+  { code: "TR", name: "Turkey", flag: "tr" },
+  { code: "AE", name: "United Arab Emirates", flag: "ae" },
+  { code: "GB", name: "United Kingdom", flag: "gb" },
+  { code: "US", name: "United States", flag: "us" },
+  { code: "VN", name: "Vietnam", flag: "vn" }
+];
+
+window.countries = countries;
