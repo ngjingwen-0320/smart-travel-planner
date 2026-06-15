@@ -1,6 +1,6 @@
 // const API_URL = 'http://localhost:5001/api/v1'; // Added /v1 to match app.js
 
-const API_URL = 'https://smart-travel-planner-web.onrender.com/api/v1';
+const API_URL = 'https://smart-travel-planner-4jnh.onrender.com/api/v1';
 
 async function apiRequest(endpoint, method = 'GET', data = null) {
     const token = localStorage.getItem('token');
